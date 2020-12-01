@@ -82,11 +82,11 @@ namespace LifeGameView
         {
             if (Application.Current.Dispatcher.CheckAccess())
             {
-                action?.Invoke();
+                action.Invoke();
             }
             else
             {
-                action?.Invoke();
+                Application.Current.Dispatcher.Invoke(action);
             }
         }
     }

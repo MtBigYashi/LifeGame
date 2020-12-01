@@ -1,0 +1,51 @@
+﻿<Window x:Class="LifeGameView.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:iy="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:is="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:trigger="clr-namespace:LifeGameView.TriggerActions"
+        xmlns:vm="clr-namespace:LifeGameViewModel;assembly=WpfTestViewModel"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Title="MainWindow" Height="650" Width="600" >
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <iy:Interaction.Triggers>
+        <is:PropertyChangedTrigger Binding="{Binding UpdateGenerationRequest}">
+            <trigger:UpdateGeneration/>
+        </is:PropertyChangedTrigger>
+        <is:PropertyChangedTrigger Binding="{Binding ResizeCellRequest}">
+            <trigger:ResizeCell/>
+        </is:PropertyChangedTrigger>
+        <is:PropertyChangedTrigger Binding="{Binding ToggleCurrentCellAliveRequest}">
+            <trigger:ToggleCurrentCellAlive/>
+        </is:PropertyChangedTrigger>
+    </iy:Interaction.Triggers>
+    <Grid Name="parentGridSample">
+        <StackPanel>
+            <Grid Name="gridSample">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Refresh" Command="{Binding Refresh}"/>
+                <Button Grid.Column="1" Content="Random" Command="{Binding Random}"/>
+                <Button Grid.Column="2" Content="Start" Command="{Binding Start}"/>
+                <Button Grid.Column="3" Content="Stop" Command="{Binding Stop}"/>
+            </Grid>
+            <DataGrid Name="dgSample" ItemsSource="{Binding LifeGameView}"
+                      HeadersVisibility="None" IsReadOnly="True"
+                      SelectionMode="Single" SelectionUnit="Cell" >
+                <iy:Interaction.Triggers>
+                    <iy:EventTrigger EventName="MouseUp">
+                        <iy:InvokeCommandAction Command="{Binding MouseUp}" />
+                    </iy:EventTrigger>
+                </iy:Interaction.Triggers>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
